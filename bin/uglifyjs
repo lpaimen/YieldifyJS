@@ -6,7 +6,8 @@ var fs = require("fs");
 var uglify = require("../uglify-js"), // symlink ~/.node_libraries/uglify-js.js to ../uglify-js.js
     consolidator = uglify.consolidator,
     jsp = uglify.parser,
-    pro = uglify.uglify;
+    pro = uglify.uglify,
+    backport = uglify.backport;
 
 var options = {
         ast: false,
@@ -35,7 +36,8 @@ var options = {
                 inline_script: false
         },
         make: false,
-        output: true            // stdout
+        output: true,            // stdout
+        backport: false,
 };
 
 var args = jsp.slice(process.argv, 2);
@@ -46,6 +48,15 @@ out: while (args.length > 0) {
         switch (v) {
             case "-b":
             case "--beautify":
+                options.codegen_options.beautify = true;
+                break;
+            case "--backport":
+                options.backport = true;
+                break;
+            case "--backport-beautifully":
+                options.backport = true;
+                options.mangle = false;
+                options.squeeze = false;
                 options.codegen_options.beautify = true;
                 break;
             case "-c":
@@ -298,6 +309,10 @@ function squeeze_it(code) {
                                 except       : options.reserved_names,
                                 no_functions : options.no_mangle_functions
                         });
+                });
+                if (options.backport) ast = time_it("backport", function() {
+                    ast = backport.backport(ast);
+                    return ast;
                 });
                 if (options.squeeze) ast = time_it("squeeze", function(){
                         ast = pro.ast_squeeze(ast, {
