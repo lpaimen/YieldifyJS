@@ -9,6 +9,13 @@ function while_yield() {
         yield 5;
     }
 }
+function yield_while_yield() {
+    var a;
+    while (a = yield a;) {}
+    //                ^
+    // todo: Syntax error, fix semicolon handling in parser
+}
+
 function fib() {
   var i, j = 1;
   while (true) {
