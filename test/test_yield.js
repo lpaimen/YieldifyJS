@@ -9,19 +9,17 @@ function while_yield() {
         yield 5;
     }
 }
-/*
 function fib() {
   var i, j = 1;
-  var a = 7;
   while (true) {
-    var s = yield i;
+    yield i;
     var t = i;
     i = j;
     j += t;
-    var d = t + 3;
   }
 }
 
+/*
 function f() {
     switch (a) {
      case 0:

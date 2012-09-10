@@ -197,6 +197,7 @@ function ParserTestSuite(callback){
 		["(function(){yield o.m;});", "4 yield expression"],
 		["(function(){yield o.m(x);});", "5 yield expression"],
 		["(function(){yield o.m(x,y);});", "6 yield expression"],
+		["(function(){yield});", "7 yield expression"],
 		// prefix/postfix
 		["++x;", "1 pre/postfix"],
 		["x++;", "2 pre/postfix"],
