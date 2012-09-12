@@ -4,7 +4,7 @@ Fork of [UglifyJS](https://github.com/mishoo/UglifyJS) to backport yield support
 
 Idea is to mangle the functions containing yield to totally different structure to enable yielding with JS engines that don't support it.
 
-See test/backport for test cases and examples. To read about yield, see [MDN](https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Iterators_and_Generators). For a different way to do yield, see [lyfe](https://github.com/tran-nguyen/lyfe) project.
+See test/backport for test cases and examples. To read about yield, see [MDN](https://developer.mozilla.org/en-US/docs/JavaScript/Guide/Iterators_and_Generators). For a different way to do yield, see [lyfe](https://bitbucket.org/balpha/lyfe) project.
 
 ## Sample usage and output
 
