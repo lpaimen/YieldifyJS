@@ -1,15 +1,14 @@
 {
-        "name"    : "uglify-js",
+        "name"    : "yieldifyjs",
 
-        "description" : "JavaScript parser and compressor/beautifier toolkit",
+        "description" : "Fork of UglifyJS to backport yield support for Javascript 1.6",
 
         "author"  : {
-                "name"  : "Mihai Bazon",
-                "email" : "mihai.bazon@gmail.com",
-                "url"   : "http://mihai.bazon.net/blog"
+                "name"  : "Lauri Paimen",
+                "email" : "lauri@paimen.info"
         },
 
-        "version" : "1.3.0",
+        "version" : "0.1.1",
 
         "main"    : "./uglify-js.js",
 
@@ -19,7 +18,7 @@
 
         "repository": {
                 "type": "git",
-                "url": "git@github.com:mishoo/UglifyJS.git"
+                "url": "git@github.com:lpaimen/YieldifyJS.git"
         },
 
         "devDependencies": {
@@ -27,6 +26,6 @@
         },
 
         "scripts": {
-          "test": "$(which nodeunit || echo node_modules/nodeunit/bin/nodeunit) test/unit/scripts.js && test/testparser.js && test/testconsolidator.js"
+          "test": "$(which nodeunit || echo node_modules/nodeunit/bin/nodeunit) test/unit/scripts.js && test/testparser.js && test/testconsolidator.js && test/testbackport.js"
         }
 }

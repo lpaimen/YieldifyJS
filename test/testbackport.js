@@ -7,7 +7,7 @@ var uglify = require("../uglify-js"),
     assert = require("assert"),
     fs = require("fs");
     
-var testDir = "backport";
+var testDir = __dirname + "/backport";
 
 var scripts = fs.readdirSync(testDir);
 for (var i in scripts) {
