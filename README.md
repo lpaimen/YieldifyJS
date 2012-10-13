@@ -10,27 +10,27 @@ See test/backport for test cases and examples. To read about `yield`, see [MDN](
 
 Lets take an example function while_yield.js from test/backport directory:
 
-    $ cat test/backport/while_yield.js
-    function dut() {
-        var i = 0;
-        while (i < 4) {
-            yield i;
-            i++;
+    $ cat test/backport_performance/test/mdn_fibonacci_reset.js 
+    function mdn_fibonacci_reset(){
+      var fn1 = 1;
+      var fn2 = 1;
+      while (1){
+        var current = fn2;
+        fn2 = fn1;
+        fn1 = fn1 + current;
+        var reset = yield current;
+        if (reset){
+            fn1 = 1;
+            fn2 = 1;
         }
+      }
     }
-    
-    var g = dut();
-    assert.equal(g.next(), 0);
-    assert.equal(g.next(), 1);
-    assert.equal(g.next(), 2);
-    assert.equal(g.next(), 3);
-    assert.throws(function() { g.next(); }, /StopIteration/);
 
 Then process it not to contain yield:
 
-    $ ./bin/uglifyjs --backport-beautifully test/backport/while_yield.js
-    function dut() {
-        var i, $yc_counter = 0, $yc_value;
+    $ ./bin/uglifyjs --backport-beautifully test/backport_performance/test/mdn_fibonacci_reset.js 
+    function mdn_fibonacci_reset() {
+        var current, reset, fn1, fn2, $yc_counter = 0, $yc_value;
         return {
             send: function(value) {
                 $yc_value = value;
@@ -44,20 +44,33 @@ Then process it not to contain yield:
                 yield_loop : while (true) {
                     switch ($yc_counter) {
                       case 0:
-                        i = 0
+                        fn2 = 1
+                        fn1 = 1
                       case 1:
-                        if (!(i < 4)) {
+                        if (!1) {
+                            $yc_counter = 5;
+                            continue yield_loop;
+                        }
+                        current = fn2
+                        fn2 = fn1
+                        fn1 = fn1 + current
+                        $yc_counter = 2;
+                        return current;
+                      case 2:
+                        reset = $yc_value
+                        if (!reset) {
                             $yc_counter = 3;
                             continue yield_loop;
                         }
-                        $yc_counter = 2;
-                        return i;
-                      case 2:
-                        $yc_value
-                        i++
-                        $yc_counter = 1;
+                        fn1 = 1
+                        fn2 = 1
+                        $yc_counter = 4;
                         continue yield_loop;
                       case 3:
+                      case 4:
+                        $yc_counter = 1;
+                        continue yield_loop;
+                      case 5:
                         throw "StopIteration";
                       default:
                         throw "Emergency break";
@@ -65,22 +78,9 @@ Then process it not to contain yield:
                 }
             }
         };
-    }
-    var g = dut();
+    };
 
-    assert.equal(g.next(), 0);
-
-    assert.equal(g.next(), 1);
-
-    assert.equal(g.next(), 2);
-
-    assert.equal(g.next(), 3);
-
-    assert.throws(function() {
-        g.next();
-    }, /StopIteration/);
-
-dut function (that contained yield) has now been mangled to behave like yielding function. Looks dirty, but should work. The best, it is automatic.
+mdn\_fibonacci\_reset function has now been mangled to behave like yielding function. Looks dirty, but works.
 
 ## Preliminary performance
 
