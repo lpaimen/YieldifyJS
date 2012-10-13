@@ -1,0 +1,22 @@
+#!/bin/bash
+
+native=originals.js
+backport=backported.js
+
+echo "// Created by update script" | tee $native > $backport
+
+
+for file in test/*; do
+
+    name=$(echo $file | sed -E "s/test\/(.*)\.js/\1/");
+
+    echo | tee -a $native >> $backport
+
+    echo "// $name from $file" >> $native
+    cat "$file" >> $native
+
+    echo "// $name backported from $file" >> $backport
+    ../../bin/uglifyjs --backport-beautifully $file \
+        | sed -E "s/$name/${name}_backported/" >> $backport
+
+done

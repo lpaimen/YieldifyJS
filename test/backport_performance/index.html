@@ -1,16 +1,29 @@
+<!doctype html>
 <html>
     <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
         <title>Tester</title>
         <script type="application/javascript;version=1.8">
+            // Test for yield
+            // http://stackoverflow.com/questions/2297286/javascript-check-yield-support
+            
             function yield_test() {
                 yield 0;
             }
             var canYield = true;
         </script>
         <script src="main.js"></script>
-        <script type="application/javascript;version=1.8" src="native.js"></script>
+        <script src="originals.js" type="application/javascript;version=1.8"></script>
         <script src="backported.js"></script>
     </head>
     <body>
+        <h1>Yield performance tester</h1>
+        Compares performance of yielding function against backported version. If browser does not support yield, tester only runs backported version.
+        <br/>
+        To add test,<br/>
+        1. Place file containing similarly named function to test/ directory.<br/>
+        2. Run <code>./update</code>.<br/>
+        3. Add test name and driver into main.js.<br/>
+        Test log:
     </body>
 </html>
