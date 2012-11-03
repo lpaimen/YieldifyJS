@@ -20,7 +20,7 @@ bigger than on the last run, starting from the given `startValue`.
 
     var gen = inc_generator(42);
     for (var i = 0; i < 10; i++) {
-        console.log( gen.next() ); // Prints numbers 42 ... 51
+        console.log( gen.next() ); // Prints 42..51
     }
 
 To run the code, you need Javascript engine that supports yield. As of Oct 2012,
@@ -56,22 +56,27 @@ More human-readable code, try `--backport-beautifully` switch:
 
     $ ./bin/uglifyjs --backport-beautifully test/yield_example.js
 
-## Technical / walkthrough of rewritten example
+## Walkthrough of rewritten test/yield_example.js
+
+Original source (test/yield_example.js):
 
 ```javascript
-// Original source:
-/* 1:*/ function inc_generator(startValue) {
-/* 2:*/     while (true) {
-/* 3:*/         yield startValue++;
-/* 4:*/     }
-/* 5:*/ }
-/* 6:*/ 
-/* 7:*/ var gen = inc_generator(42);
-/* 8:*/ for (var i = 0; i < 10; i++) {
-/* 9:*/     console.log(gen.next()); // Prints 
-/*10:*/ }
+function inc_generator(startValue) {
+    while (true) {
+        yield startValue++;
+    }
+}
 
-// Source after ./bin/uglifyjs --backport-beautifully
+var gen = inc_generator(42);
+for (var i = 0; i < 10; i++) {
+    console.log(gen.next()); // Prints 42..51
+}
+```
+
+Commented source after
+`$ ./bin/uglifyjs --backport-beautifully test/yield_example.js`:
+
+```javascript
 /*  Original function is replaced with new generator function that has similar
     interface. */
 function inc_generator(startValue) {
