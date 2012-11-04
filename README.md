@@ -158,12 +158,12 @@ function inc_generator(startValue) {
                           case 0:
 
 /*  Case 1 is the beginning of while block. First, while expression is
-    evaluated. In this case, the expression is 1 + 2. If the expression
+    evaluated. In this case, the expression is true. If the expression
     evaluates to false, loop is jumped out ($yc_counter changed and the switch
     restarted).
     */
                           case 1:
-                            if (!(1 + 2)) {
+                            if (!true) {
                                 $yc_counter = 3;
                                 continue yield_loop;
                             }
